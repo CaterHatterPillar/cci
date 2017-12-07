@@ -126,6 +126,14 @@ class List {
     }
   }
 
+  T& kth_to_last(size_t k) const {
+    Node<T> *n = at(size() - k - 1);
+    if (!n) {
+      throw std::out_of_range("");
+    }
+    return n->value_;
+  }
+
  private:
   void find(size_t idx,
             Node<T> *& before, Node<T> *& at, Node<T> *& after) const {

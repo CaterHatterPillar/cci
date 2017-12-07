@@ -29,7 +29,6 @@ class List {
     }
     return n->value_;
   }
-
   T& operator[](size_t idx) {
     Node<T> *n = at(idx);
     if (!n) {

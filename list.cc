@@ -4,13 +4,8 @@
 int main() {
   List<int> l;
 
-  bool thrown = false;
-  try {
-    int i = l[0];
-  } catch(std::out_of_range& e) {
-    thrown = true;
-  }
-  EXPECT_TRUE(thrown);
+  EXPECT_EXCEPTION(int i = l[0];, std::out_of_range);
+  EXPECT_EXCEPTION(l.erase(0);, std::out_of_range);
 
   l.pop_front();
   l.pop_back();
@@ -54,6 +49,30 @@ int main() {
   EXPECT_EQUAL(l[1], 1);
   EXPECT_EQUAL(l[2], 2);
   EXPECT_EQUAL(l.size(), 3);
+
+  l.erase(1);
+  EXPECT_EQUAL(l[0], 0);
+  EXPECT_EQUAL(l[1], 2);
+
+  l.erase(0);
+  EXPECT_EQUAL(l[0], 2);
+
+  l.erase(0);
+  EXPECT_EQUAL(l.size(), 0);
+
+  l.push_back(1);
+  l.push_back(2);
+  l.push_back(3);
+
+  EXPECT_EQUAL(l[0], 1);
+  EXPECT_EQUAL(l[1], 2);
+  EXPECT_EQUAL(l[2], 3);
+
+  l[1] = 0;
+
+  EXPECT_EQUAL(l[0], 1);
+  EXPECT_EQUAL(l[1], 0);
+  EXPECT_EQUAL(l[2], 3);
 
   return 0;
 }

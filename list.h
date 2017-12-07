@@ -30,6 +30,14 @@ class List {
     return n->value_;
   }
 
+  T& operator[](size_t idx) {
+    Node<T> *n = at(idx);
+    if (!n) {
+      throw std::out_of_range("");
+    }
+    return n->value_;
+  }
+
   void push_back(T value) {
     if (root_) {
       Node<T> *n = root_;
@@ -74,6 +82,25 @@ class List {
     }
   }
 
+  void erase(size_t idx) {
+    Node<T> *before, *at, *after;
+    find(idx, before, at, after);
+
+    if (at) {
+      delete at;
+    } else {
+      throw std::out_of_range("");
+    }
+
+    if (before) {
+      before->next_ = after;
+    } else if (after) {
+      root_ = after;
+    } else {
+      root_ = NULL;
+    }
+  }
+
   size_t size() const {
     size_t s = 0;
     for (Node<T> *n = root_; n; ++s) {
@@ -83,12 +110,21 @@ class List {
   }
 
  private:
-  Node<T> *at(size_t idx) const {
-    Node<T> *n = root_;
-    for (int i = 0; i < idx && n; ++i) {
-      n = n->next_;
+  void find(size_t idx,
+            Node<T> *& before, Node<T> *& at, Node<T> *& after) const {
+    before = NULL;
+    at = root_;
+    for (; idx > 0 && at; --idx) {
+      before = at;
+      at = at->next_;
     }
-    return n;
+    after = at ? at->next_ : NULL;
+  }
+
+  Node<T> *at(size_t idx) const {
+    Node<T> *before, *at, *after;
+    find(idx, before, at, after);
+    return at;
   }
 
   Node<T> *root_;

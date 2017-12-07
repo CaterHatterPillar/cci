@@ -8,12 +8,17 @@
 
 #define LOCATION __FILE__ ":" XSTR(__LINE__) ": "  // Looks good in Emacs
 
+#define MSG(msg) std::cerr << LOCATION << msg << std::endl
 #define MSG_UNLESS(cond, msg)                           \
   do {                                                  \
     if (!(cond)) {                                      \
-      std::cerr << LOCATION << msg << std::endl;        \
+      MSG(msg);                                         \
     }                                                   \
   } while (0)
+
+#define FAIL(msg)                               \
+  MSG(msg);                                     \
+  exit(EXIT_FAILURE);
 
 #define FAIL_UNLESS(cond, msg)                          \
   do {                                                  \
@@ -30,3 +35,9 @@
 #define REQUIRE_TRUE(cond) FAIL_UNLESS(cond, "expected true")
 #define REQUIRE_FALSE(cond) FAIL_UNLESS(!cond, "expected false")
 #define REQUIRE_EQUAL(l, r) FAIL_UNLESS(l == r, "expected " << l << " == " << r)
+
+#define EXPECT_EXCEPTION(statement, exception)                  \
+  try {                                                         \
+    statement;                                                  \
+    FAIL("Expected exception " #exception " not thrown");       \
+  } catch(const exception& e) {}

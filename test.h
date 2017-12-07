@@ -41,5 +41,5 @@
 #define EXPECT_EXCEPTION(statement, exception)                  \
   try {                                                         \
     statement;                                                  \
-    FAIL("Expected exception " #exception " not thrown");       \
+    FAIL("expected exception " #exception " not thrown");       \
   } catch(const exception& e) {}

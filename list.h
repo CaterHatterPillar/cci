@@ -108,6 +108,24 @@ class List {
     return s;
   }
 
+  void remove_dups(T value) {
+    bool encountered = false;
+    Node<T> *before = NULL;
+    Node<T> *at = root_;
+    while(at) {
+      if (at->value_ == value) {
+        if (encountered) {
+          before->next_ = at->next_;
+          delete at;
+        } else {
+          encountered = true;
+        }
+      }
+      before = at;
+      at = at->next_;
+    }
+  }
+
  private:
   void find(size_t idx,
             Node<T> *& before, Node<T> *& at, Node<T> *& after) const {

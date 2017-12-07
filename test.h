@@ -17,8 +17,10 @@
   } while (0)
 
 #define FAIL(msg)                               \
+  do {                                          \
   MSG(msg);                                     \
-  exit(EXIT_FAILURE);
+  exit(EXIT_FAILURE);                           \
+  } while (0)
 
 #define FAIL_UNLESS(cond, msg)                          \
   do {                                                  \
